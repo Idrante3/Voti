@@ -1,1 +1,58 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Il Mio Sito Locale</title>
+    <style> 
+    body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
 
+h1 {
+    color: #333;
+    font-family: Impact;
+    font-weight: bold;
+}
+
+button {
+    background-color: #f4f4f4;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #005f73;
+}
+</style>
+</head>
+<body>
+    <header>
+        <h1>TOUR DI ROMA</h1>
+        <p>Questa è una semplice pagina web in locale.</p>
+    </header>
+
+    <section>
+        <button id="mioBottone">Cliccami!</button>
+        <p id="messaggio"></p>
+    </section>
+
+    
+      
+    <script>
+    document.getElementById("mioBottone").addEventListener("click", function() {
+    document.body.innerHTML = `
+                <h1>Hai cambiato il corpo della pagina!</h1>
+                <p>Questa è una nuova sezione della pagina.</p>
+                <button onclick="history.back()">Torna indietro</button>
+            `;
+        });
+    </script>
+</body>
+</html>
