@@ -5,32 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Il Mio Sito Locale</title>
     <style> 
-    body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f4f4f4;
-    padding: 20px;
-}
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
 
-h1 {
-    color: #333;
-    font-family: Impact;
-    font-weight: bold;
-}
+        h1 {
+            color: #333;
+            font-family: Impact;
+            font-weight: bold;
+        }
 
-button {
-    background-color: #f4f4f4;
-    color: black;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-}
+        button {
+            background-color: #f4f4f4;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
 
-button:hover {
-    background-color: #005f73;
-}
-</style>
+        button:hover {
+            background-color: #005f73;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -38,20 +39,23 @@ button:hover {
         <p>Questa è una semplice pagina web in locale.</p>
     </header>
 
-    <section>
+    <section id="contenuto">
         <button id="mioBottone">Cliccami!</button>
         <p id="messaggio"></p>
     </section>
 
-    
-      
     <script>
-    document.getElementById("mioBottone").addEventListener("click", function() {
-    document.body.innerHTML = `
-                <h1>Hai cambiato il corpo della pagina!</h1>
+        document.getElementById("mioBottone").addEventListener("click", function() {
+            document.getElementById("contenuto").innerHTML = `
+                <h1>Hai cambiato la sezione!</h1>
                 <p>Questa è una nuova sezione della pagina.</p>
-                <button onclick="history.back()">Torna indietro</button>
+                <button id="tornaIndietro">Torna indietro</button>
             `;
+
+            // Aggiungo l'evento al bottone "Torna indietro"
+            document.getElementById("tornaIndietro").addEventListener("click", function() {
+                location.reload(); // Ricarica la pagina per tornare allo stato originale
+            });
         });
     </script>
 </body>
