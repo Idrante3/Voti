@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Il Mio Sito Locale</title>
+    <title>Voti</title>
     <style> 
         body {
             font-family: Arial, sans-serif;
@@ -25,38 +25,145 @@
             border: none;
             cursor: pointer;
             font-size: 16px;
+            margin: 5px;
         }
 
         button:hover {
             background-color: #005f73;
             color: white;
         }
+
+        .hidden {
+            display: none;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: white;
+            margin: 5px;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
-    <header>
-        <h1>TOUR DI ROMA</h1>
-        <p>Questa è una semplice pagina web in locale.</p>
+    <header id="paginaIniziale">
+        <h1>TABELLA VOTI</h1>
+        <p>Seleziona una materia</p>
+        <button class="materiaBtn" data-materia="Diritto">Diritto</button>
+        <button class="materiaBtn" data-materia="Italiano">Italiano</button>
+        <button class="materiaBtn" data-materia="Inglese">Inglese</button>
+        <button class="materiaBtn" data-materia="Matematica">Matematica</button>
+        <button class="materiaBtn" data-materia="Chimica">Chimica</button>
+        <button class="materiaBtn" data-materia="Fisica">Fisica</button>
+        <button class="materiaBtn" data-materia="Biologia">Biologia</button>
+        <button class="materiaBtn" data-materia="Motoria">Motoria</button>
+        <button class="materiaBtn" data-materia="Storia">Storia</button>
+        <button class="materiaBtn" data-materia="TTRG">TTRG</button>
+        <button class="materiaBtn" data-materia="Religione">Religione</button>
+        <button class="materiaBtn" data-materia="STA">STA</button>
+        <button class="materiaBtn" data-materia="Ed_Civica">Ed_Civica</button>
     </header>
 
-    <section id="contenuto">
-        <button id="mioBottone">Cliccami!</button>
-        <p id="messaggio"></p>
+    <section id="sezioneMaterie" class="hidden">
+        <h1 id="titoloMateria"></h1>
+        <p>Inserisci i tuoi voti per questa materia:</p>
+        
+        <input type="number" id="inputVoto" placeholder="Inserisci un voto">
+        <input type="number" id="inputPeso" placeholder="Inserisci il peso">
+        <button id="aggiungi">Aggiungi</button>
+
+        <h2>Lista Voti:</h2>
+        <ul id="listaVoti"></ul>
+
+        <h2>Lista Pesi:</h2>
+        <ul id="listaPesi"></ul>
+
+        <button id="tornaIndietro">Torna indietro</button>
     </section>
 
     <script>
-        document.getElementById("mioBottone").addEventListener("click", function() {
-            document.getElementById("contenuto").innerHTML = `
-                <h1>Hai cambiato la sezione!</h1>
-                <p>Questa è una nuova sezione della pagina.</p>
-                <button id="tornaIndietro">Torna indietro</button>
-            `;
+        let votiMaterie = {}; // Oggetto per salvare voti e pesi per ogni materia
 
-            // Aggiungo l'evento al bottone "Torna indietro"
-            document.getElementById("tornaIndietro").addEventListener("click", function() {
-                location.reload(); // Ricarica la pagina per tornare allo stato originale
+        document.querySelectorAll(".materiaBtn").forEach(button => {
+            button.addEventListener("click", function() {
+                let materia = this.getAttribute("data-materia");
+                document.getElementById("paginaIniziale").classList.add("hidden");
+                document.getElementById("sezioneMaterie").classList.remove("hidden");
+                document.getElementById("titoloMateria").textContent = materia;
+
+                // Se la materia non esiste, inizializzala
+                if (!votiMaterie[materia]) {
+                    votiMaterie[materia] = { voti: [], pesi: [] };
+                }
+
+                aggiornaLista(materia);
             });
         });
+
+        document.getElementById("tornaIndietro").addEventListener("click", function() {
+            document.getElementById("paginaIniziale").classList.remove("hidden");
+            document.getElementById("sezioneMaterie").classList.add("hidden");
+        });
+
+        document.getElementById("aggiungi").addEventListener("click", function() {
+            let materia = document.getElementById("titoloMateria").textContent;
+            let inputVoto = document.getElementById("inputVoto");
+            let inputPeso = document.getElementById("inputPeso");
+
+            let voto = inputVoto.value;
+            let peso = inputPeso.value;
+
+            if (voto === "" || peso === "") {
+                alert("Inserisci sia un voto che un peso!");
+                return;
+            }
+
+            // Salva i dati nella materia corrente
+            votiMaterie[materia].voti.push(voto);
+            votiMaterie[materia].pesi.push(peso);
+
+            aggiornaLista(materia);
+
+            // Pulisce i campi di input
+            inputVoto.value = "";
+            inputPeso.value = "";
+        });
+
+        function aggiornaLista(materia) {
+            let listaVoti = document.getElementById("listaVoti");
+            let listaPesi = document.getElementById("listaPesi");
+
+            // Svuota le liste
+            listaVoti.innerHTML = "";
+            listaPesi.innerHTML = "";
+
+            // Aggiunge i voti salvati
+            votiMaterie[materia].voti.forEach(voto => {
+                let nuovoVoto = document.createElement("li");
+                nuovoVoto.textContent = voto;
+                listaVoti.appendChild(nuovoVoto);
+            });
+
+            // Aggiunge i pesi salvati
+            votiMaterie[materia].pesi.forEach(peso => {
+                let nuovoPeso = document.createElement("li");
+                nuovoPeso.textContent = peso;
+                listaPesi.appendChild(nuovoPeso);
+            });
+        }
     </script>
 </body>
 </html>
